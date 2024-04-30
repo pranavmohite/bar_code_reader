@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Four Equal Blocks</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        justify-content: center;
+        align-content: center;
+        height: 100vh;
+      }
+
+      .block {
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        padding: 20px;
+        text-align: center;
+      }
+
+      button {
+        height: 2em;
+        width: 80px;
+        border-radius: 20px;
+      }
+
+      #preview {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background-color: darkgray;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Bar Code Scanner</h2>
+    <div class="container">
+      <div class="block">
+        <video id="preview" autoplay></video>
+      </div>
+      <div class="block">
+        <h4>Captured image</h4>
+        <div id="capturedImage"></div>
+      </div>
+      <div class="block">
+        <button id="captureButton">Capture</button>
+      </div>
+      <div class="block">bar code</div>
+    </div>
+    <script>
+      video = document.querySelector("#preview");
+
+      const captureButton = document.getElementById("captureButton");
+      const capturedImage = document.getElementById("capturedImage");
+
+      if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices
+          .getUserMedia({ video: true })
+          .then(function (stream) {
+            video.srcObject = stream;
+          })
+          .catch(function (error) {
+            console.log("something went wrong");
+          });
+      } else {
+        console.log("user media not supported");
+      }
+
+      captureButton.addEventListener("click", () => {
+        const canvas = document.createElement("canvas");
+
+        canvas.width = preview.videoWidth;
+        canvas.height = preview.videoHeight;
+
+        canvas.getContext("2d").drawImage(preview, 0, 0);
+
+        const capturedPhoto = document.createElement("img");
+
+        capturedPhoto.src = canvas.toDataURL();
+
+        capturedImage.innerHTML = "";
+        capturedImage.appendChild(capturedPhoto);
+      });
+    </script>
+  </body>
+</html>
